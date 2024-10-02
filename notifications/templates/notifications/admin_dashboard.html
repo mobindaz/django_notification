@@ -1,0 +1,33 @@
+<!-- notifications/templates/notifications/admin_dashboard.html -->
+{% extends 'notifications/base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Admin Dashboard</h2>
+    <a href="{% url 'add_notification' %}" class="btn btn-success">Add Notification</a>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Message</th>
+            <th>Date & Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for notification in notifications %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ notification.message }}</td>
+                <td>{{ notification.created_at|date:"M d, Y H:i" }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">No notifications found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

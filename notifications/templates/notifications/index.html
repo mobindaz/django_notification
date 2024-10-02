@@ -1,0 +1,83 @@
+<!-- notifications/templates/notifications/index.html -->
+
+{% extends 'notifications/base.html' %}
+
+{% block title %}Home - School Website{% endblock %}
+
+{% block extra_css %}
+<style>
+    .notification-container {
+        position: relative;
+        width: 100%;
+        background-color: #f0f8ff;
+        overflow: hidden;
+        color: #333;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .notification-text {
+        display: inline-block;
+        white-space: nowrap;
+        padding-left: 100%;
+        animation: scroll 15s linear infinite;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .notification-symbol {
+        margin-right: 10px;
+        font-size: 24px;
+    }
+
+    @keyframes scroll {
+        from {
+            transform: translateX(100%);
+        }
+        to {
+            transform: translateX(-100%);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const notificationText = document.querySelector('.notification-text');
+        const colors = ['#ff4757', '#1e90ff', '#2ed573', '#ffa502', '#7bed9f'];
+        let colorIndex = 0;
+
+        setInterval(() => {
+            notificationText.style.color = colors[colorIndex];
+            colorIndex = (colorIndex + 1) % colors.length;
+        }, 1000); // Change color every second
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Our School!</h1>
+    <p class="lead">Stay updated with the latest notification below.</p>
+    <hr class="my-4">
+
+    {% if notifications %}
+    {% with latest_notification=notifications.0 %}
+    <div class="notification-container">
+        <span class="notification-text">
+            <span class="notification-symbol">🔔</span>
+            {{ latest_notification.message }}
+        </span>
+        <small>{{ latest_notification.created_at|date:"M d, Y H:i" }}</small>
+    </div>
+    {% endwith %}
+    {% else %}
+    <p>No notifications available.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

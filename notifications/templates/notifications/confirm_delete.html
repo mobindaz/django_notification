@@ -1,0 +1,17 @@
+<!-- notifications/templates/notifications/confirm_delete.html -->
+
+{% extends 'notifications/base.html' %}
+
+{% block title %}Confirm Deletion - School Website{% endblock %}
+
+{% block content %}
+<div class="confirm-delete">
+    <h1>Confirm Deletion</h1>
+    <p>Are you sure you want to delete the notification: "{{ notification.message }}"?</p>
+    <form method="post" action="{% url 'delete_notification' notification.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-delete">Confirm Delete</button>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-primary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
